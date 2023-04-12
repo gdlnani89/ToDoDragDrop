@@ -1,0 +1,102 @@
+li
+{
+    background-color: #ae00ff;
+    display: flex;
+    align-items: center;
+    padding: 10px 0 10px 10px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    margin: 10px;
+    justify-content: space-around;
+}
+ul
+li:hover
+{
+	box-shadow: none;
+}
+.texto
+{
+    background-color: #b176ff;
+    padding: 10px;
+    width: 75%;
+}
+.check, .lixeira
+{
+    margin: 4px;
+    cursor: pointer;
+}
+.mover
+{
+    cursor: grab;
+}
+.mover:active
+{
+    cursor: grabbing;
+}
+/* .check{
+    all:unset;
+    position:relative;
+    display: inline-block;
+    border: dashed 1px #CCC;
+    width:15px;
+    height: 15px;
+    background: #b176ff;
+    cursor:pointer;
+  }
+  
+  .check:checked{
+    border: dashed 1px transparent;
+  }
+  
+  .check:checked::after{
+    content:"";
+    position:absolute;
+    width:10px;
+    height:10px;
+    left: calc(50% - 5px);
+    top: calc(50% - 5px);
+    border-radius:50%;
+  }
+
+  .check.red:checked{
+    background: #2B2F42;
+  }
+  .check.red:checked::after{
+    background: #ae00ff;
+  } */
+  .check {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+  }
+  
+  .check + label {
+    position: relative;
+    cursor: pointer;
+    padding-left: 30px;
+    top: 8px;
+    margin-left: 10px;
+  }
+  
+  .check[type=checkbox] + label::before {
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    left: 0;
+    bottom: 0;
+    border: solid 2px;
+    vertical-align: bottom;
+  }
+  
+  .check[type=checkbox]:checked + label::after {
+    content: '';
+    position: absolute;
+    left: 9px;
+    bottom: 4px;  
+    width: 5px;
+    height: 15px;
+    border-right: solid 3px green;
+    border-bottom: solid 3px green;
+    transform: rotate(45deg);
+  }

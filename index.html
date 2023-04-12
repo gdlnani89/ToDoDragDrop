@@ -1,0 +1,106 @@
+ <!DOCTYPE html>
+<html lang="pt" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>To do - Drag and Drop</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/li.css">
+    <link rel="stylesheet" href="/css/cardUl.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/modal.css">
+  <body>
+    <header class="h-container">
+      <label for="tarefaTexto">Fazer:</label>
+      <input id="tarefaTexto" type="text" placeholder="O que você precisa fazer?">
+      <!-- <button id="adicionarTarefa" type="button" name="button" onclick="adicionarTarefa()">+</button> -->
+      <span id="adicionarTarefa" onclick="adicionarTarefa()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+        </svg>
+      </span>
+    </header>
+    <section class="s-container">
+      <div class="s-esquerda">
+        <div class="esquerda-cima">
+          <div class="ul-container">
+            <ul id="urgenteImportante" ondrop="drop(event)" ondragover="allowDrop(event)"></ul>
+            <div class="cores" id="u-i-paleta">
+              <span id="vermelho" onclick="corSeleciona(event)"></span>
+              <span id="amarelo" onclick="corSeleciona(event)"></span>
+              <span id="azul" onclick="corSeleciona(event)"></span>
+              <span id="verde" onclick="corSeleciona(event)"></span>
+            </div>
+            <!-- <span class="ampliar"></span> -->
+            <h6 class="h6-urgente">URGENTE</h6>
+            <h6 class="h6-importante">IMPORTANTE</h6>
+            <span class="ampliar" onclick="modalUl('urgenteImportante')"></span>
+          </div>
+        </div>
+        <div class="esquerda-baixo">
+          <div class="ul-container" >
+            <ul id="urgenteNaoImportante" ondrop="drop(event)" ondragover="allowDrop(event)"></ul>
+            <div class="cores" id="u-nI-paleta">
+              <span id="vermelho" onclick="corSeleciona(event)"></span>
+              <span id="amarelo" onclick="corSeleciona(event)"></span>
+              <span id="azul" onclick="corSeleciona(event)"></span>
+              <span id="verde" onclick="corSeleciona(event)"></span>
+            </div>
+            <h6 class="h6-naoImportante">NÃO-IMPORTANTE</h6>
+            <h6 class="h6-urgente">URGENTE</h6>
+            <span class="ampliar" onclick="modalUl('urgenteNaoImportante')"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="s-centro">
+        <ul id="listaClassificar" ondrop="drop(event)" ondragover="allowDrop(event)"></ul>
+      </div>
+
+      <div class="s-direita">
+        <div class="direita-cima">
+          <div class="ul-container">
+            <ul id="naoUrgenteImportante" ondrop="drop(event)" ondragover="allowDrop(event)"></ul>
+            <div class="cores" id="nU-i-paleta">
+              <span id="vermelho" onclick="corSeleciona(event)"></span>
+              <span id="amarelo" onclick="corSeleciona(event)"></span>
+              <span id="azul" onclick="corSeleciona(event)"></span>
+              <span id="verde" onclick="corSeleciona(event)"></span>
+            </div>
+            <span class="ampliarD" onclick="modalUl('naoUrgenteImportante')"></span>
+            <h6 class="h6-naoUrgente">NÃO URGENTE</h6>
+            <h6 class="h6-importante">IMPORTANTE</h6>
+          </div>
+        </div>
+        <div class="direita-baixo">
+          <div class="ul-container">
+            <ul id="naoUrgenteNaoImportante" ondrop="drop(event)" ondragover="allowDrop(event)"></ul>
+            <div class="cores" id="nU-nI-paleta">
+              <span id="vermelho" onclick="corSeleciona(event)"></span>
+              <span id="amarelo" onclick="corSeleciona(event)"></span>
+              <span id="azul" onclick="corSeleciona(event)"></span>
+              <span id="verde" onclick="corSeleciona(event)"></span>
+            </div>
+            <span class="ampliarD" onclick="modalUl('naoUrgenteNaoImportante')"></span>
+            <h6 class="h6-naoUrgente">NÃO URGENTE</h6>
+            <h6 class="h6-naoImportante">NÃO-IMPORTANTE</h6>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="modal">
+      <!-- aqui vai abrir um modal da lista selecionada -->
+      <div class="principal">
+        <span class="fechar" onclick="$('.modal').style.display = 'none'">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+            <title>Fechar</title>
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+          </svg>
+        </span>
+        <div class="card"></div>
+      </div>
+    </div>
+    <script type="text/javascript" src="/js/iconesSVG.js"></script>
+    <script type="text/javascript" src="/js/funcoes.js"></script>
+    <script type="text/javascript" src="/js/renderer.js"></script>
+  </body>
+</html>
