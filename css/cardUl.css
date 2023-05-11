@@ -7,30 +7,34 @@
     --cardNone : #fffaf0;
 }
 
-ul:not(#listaClassificar)
+section ul:not(#listaClassificar)
 {
 	list-style: none;
 	width: 100%;
 	height: 100%;
-	overflow: hidden;
+	overflow-y: auto;
 	border-radius: 10px;
 	box-shadow: 0px 4px 20px rgb(0 0 0 / 25%);
     background-color: var(--cardNone);
 }
-ul:not(#listaClassificar)
-{
-	position: absolute;
-}
+
+ul::-webkit-scrollbar {
+	width: 5px; /* largura da barra de rolagem */
+  }
+ul::-webkit-scrollbar-thumb {
+	background-color: red; /* cor da barra de rolagem */
+  }
+
 .ul-container
 {
 	position: relative;
-	width: 79%;
+	width: 90%;
 	height: 85%;
 }
 .s-esquerda
 .ul-container
 {
-	left: 60px;
+	left: 20px;
 }
 .s-direita
 .ul-container
@@ -39,18 +43,71 @@ ul:not(#listaClassificar)
 }
 h6
 {
-	position: absolute;
-	text-align: center;
-	/* width: 240px;
-	height: 38px; */
+	text-align: end;
 	font-style: normal;
-	font-weight: 400;
 	border-radius: 10px 10px 0 0;
 	color: var(--fonteH6);
+	/* border-top: 1px white solid; */
 }
+
 h6:not(.h6-naoImportante)
 {
-	font-size: 24px;
+	font-size: 16px;
+  width: 50%;
+}
+.etiqueta
+{
+	display: flex;
+	align-items: center;
+	margin-left: 22px;
+}
+
+.editaEtiqueta
+{
+  display:block;
+	width: 20px;
+	height: 20px;
+	background-image: url('../icon/editar.svg');
+	background-repeat: no-repeat;
+	background-position: center center;
+	margin-left: 10px;
+	opacity: 0.5;
+	cursor: pointer;
+  background-color: transparent;
+}
+.salvaEtiqueta
+{
+  display: none;
+	width: 10px;
+	height: 10px;
+	background-image: url('../icon/salvar.svg');
+	background-repeat: no-repeat;
+	background-position: center center;
+	margin-left: 10px;
+	cursor: pointer;
+}
+.salvaEtiqueta.visivel,.editaEtiqueta.visivel
+{
+  display: block;
+}
+.editaEtiqueta:hover
+{
+	opacity: 1;
+}
+.etiqueta #h6Altera
+{
+  height: 24px;
+  display: none;
+}
+.etiqueta #h6Altera.visivel{
+  display: block;
+}
+.esquerda-baixo .h6-urgente,
+.direita-baixo .h6-naoUrgente
+{
+	border-top: none;
+	border-bottom: 1px white solid;
+	border-radius: 0 0 10px 10px;
 }
 .h6-naoImportante
 {
@@ -61,7 +118,7 @@ h6:not(.h6-naoImportante)
 .h6-urgente
 {
 	padding: 10px;
-	bottom: -58px;
+	bottom: -50px;
 }
 .s-esquerda
 .esquerda-cima
@@ -71,13 +128,12 @@ h6:not(.h6-naoImportante)
     top: -58px;
 }
 /* div para selecionar a cor do card ul */
-.esquerda-cima .cores,
-.direita-cima .cores
+.esquerda-cima .layout,
+.direita-cima .layout
 {
 	position: absolute;
 	top: -29px;
 	right: 8px;
-	width: 95px;
 	height: 29px;
 	border-radius: 10px 10px 0 0;
 	background-color: #d0d0d7;
@@ -86,13 +142,12 @@ h6:not(.h6-naoImportante)
 	align-items: center;
 	box-shadow: 0px 4px 20px rgb(0 0 0 / 25%);
 }
-.esquerda-baixo .cores,
-.direita-baixo .cores
+.esquerda-baixo .layout,
+.direita-baixo .layout
 {
 	position: absolute;
 	top: -29px;
 	right: 8px;
-	width: 95px;
 	height: 29px;
 	border-radius: 10px 10px 0 0;
 	background-color: #d0d0d7;
@@ -106,7 +161,8 @@ h6:not(.h6-naoImportante)
 .direita-cima,
 .direita-baixo
 {
-	height: 50%;
+	height: 100%;
+	transition: height 0.5s ease-in-out;
 }
 .h6-importante, .h6-naoImportante
 {
@@ -124,8 +180,8 @@ h6:not(.h6-naoImportante)
 .esquerda-baixo
 .h6-naoImportante
 {
-	padding: 10px;	
-	left: -145px;	
+	padding: 10px;
+	left: -145px;
 	bottom: 115px;
 }
 /* div direita */
@@ -135,7 +191,7 @@ h6:not(.h6-naoImportante)
 {
 	padding: 10px;
 	right: 115px;
-	top: -58px;	
+	top: -58px;
 }
 .s-direita
 .direita-cima
@@ -152,7 +208,7 @@ h6:not(.h6-naoImportante)
 {
 	padding: 10px;
 	right: 74px;
-	bottom: -58px;
+	bottom: -50px;
 }
 .s-direita .direita-baixo .h6-naoImportante
 {
@@ -162,39 +218,60 @@ h6:not(.h6-naoImportante)
 	bottom: 120px;
 }
 /* bolinha de cor  */
-.cores
+.layout
 span
 {
 	width: 20px;
 	height: 20px;
 	border-radius: 50%;
 	cursor: pointer;
-    display: flex;
+    /* display: flex; */
     align-items: center;
     justify-content: center;
 }
 
-.cores
+.layout
 span#vermelho
 {
 	background-color: var(--cardVermelho);
 }
 
-.cores
+.layout
 span#amarelo
 {
 	background-color: var(--cardAmarelo);
 }
 
-.cores
+.layout
 span#azul
 {
 	background-color: var(--cardAzul);
 }
-.cores
+.layout
 span#verde
 {
 	background-color: var(--cardVerde);
+}
+.layout
+span#ativo
+{
+	background-image: url('../icon/excluirUL.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+.layout
+span#minimizar
+{
+	background-image: url('../icon/minimiza.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+.layout
+span#maximizar
+{
+	background-image: url('../icon/maximiza.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 .ampliar
 {
@@ -240,4 +317,16 @@ span#verde
 	background-repeat: no-repeat;
 	background-position: center center;
 	filter: invert(100%) sepia(100%) hue-rotate(180deg);
+}
+.minimizar
+{
+  height: 50px;
+}
+.some
+{
+  display: none;
+}
+.aparece
+{
+  display: flex;
 }

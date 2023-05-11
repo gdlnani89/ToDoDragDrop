@@ -1,6 +1,6 @@
 li
 {
-    background-color: #ae00ff;
+    background-color: #ffffff;
     display: flex;
     align-items: center;
     padding: 10px 0 10px 10px;
@@ -14,11 +14,19 @@ li:hover
 {
 	box-shadow: none;
 }
-.texto
+li .texto
 {
-    background-color: #b176ff;
     padding: 10px;
     width: 75%;
+    font-weight: bolder;
+    border-right: 1px black dotted;
+    cursor: copy;
+}
+li .texto.risca {
+    text-decoration: line-through;
+    background-color: #414141;
+    color: white;
+    opacity: 0.4;
 }
 .check, .lixeira
 {
@@ -33,70 +41,55 @@ li:hover
 {
     cursor: grabbing;
 }
-/* .check{
-    all:unset;
-    position:relative;
-    display: inline-block;
-    border: dashed 1px #CCC;
-    width:15px;
-    height: 15px;
-    background: #b176ff;
-    cursor:pointer;
-  }
-  
-  .check:checked{
-    border: dashed 1px transparent;
-  }
-  
-  .check:checked::after{
-    content:"";
-    position:absolute;
-    width:10px;
-    height:10px;
-    left: calc(50% - 5px);
-    top: calc(50% - 5px);
-    border-radius:50%;
-  }
 
-  .check.red:checked{
-    background: #2B2F42;
-  }
-  .check.red:checked::after{
-    background: #ae00ff;
-  } */
-  .check {
+.check {
     position: absolute;
     z-index: -1;
     opacity: 0;
-  }
-  
-  .check + label {
+}
+
+.check + label {
     position: relative;
     cursor: pointer;
     padding-left: 30px;
     top: 8px;
     margin-left: 10px;
-  }
-  
-  .check[type=checkbox] + label::before {
+    margin-right: -8px;
+}
+
+.check[type=checkbox] + label::before {
     content: '';
     position: absolute;
-    width: 15px;
-    height: 15px;
+    width: 13px;
+    height: 13px;
     left: 0;
     bottom: 0;
     border: solid 2px;
     vertical-align: bottom;
-  }
-  
-  .check[type=checkbox]:checked + label::after {
+}
+
+.check[type=checkbox]:checked + label::after {
     content: '';
     position: absolute;
     left: 9px;
-    bottom: 4px;  
+    bottom: 4px;
     width: 5px;
     height: 15px;
-    border-right: solid 3px green;
-    border-bottom: solid 3px green;
+    border-right: solid 3px #2fff2f;
+    border-bottom: solid 3px #2fff2f;
     transform: rotate(45deg);
-  }
+    }
+
+
+.lixeira {
+    padding: 8px;
+    background-image: url('../icon/lixeira.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+.mover {
+    padding: 8px;
+    background-image: url('../icon/mover.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
+}

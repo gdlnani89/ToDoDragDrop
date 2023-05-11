@@ -3,51 +3,48 @@
   <head>
     <meta charset="utf-8">
     <title>To do - Drag and Drop</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/li.css">
-    <link rel="stylesheet" href="/css/cardUl.css">
-    <link rel="stylesheet" href="/css/header.css">
-    <link rel="stylesheet" href="/css/modal.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/li.css">
+    <link rel="stylesheet" href="./css/cardUl.css">
+    <link rel="stylesheet" href="./css/header.css">
+    <link rel="stylesheet" href="./css/footer.css">
+    <link rel="stylesheet" href="./css/modal.css">
   <body>
     <header class="h-container">
-      <label for="tarefaTexto">Fazer:</label>
-      <input id="tarefaTexto" type="text" placeholder="O que você precisa fazer?">
-      <!-- <button id="adicionarTarefa" type="button" name="button" onclick="adicionarTarefa()">+</button> -->
-      <span id="adicionarTarefa" onclick="adicionarTarefa()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
-        </svg>
-      </span>
+      <div class="fazer">
+        <input id="tarefaTexto" type="text" placeholder="O que você precisa fazer?">
+        <span id="adicionarTarefa" onclick="adicionarTarefa()"></span>
+      </div>
     </header>
     <section class="s-container">
       <div class="s-esquerda">
-        <div class="esquerda-cima">
+        <!-- LISTA container -->
+        <div id="esquerdaCima" class="esquerda-cima dividido">
+          <div class="etiqueta">
+            <h6 id="esquerdaCimaH6">URGENTE/IMPORTANTE</h6>
+            <input id="h6Altera" type="text" name="" value="">
+            <button type="button" name="button" class="editaEtiqueta" title="Editar nome da lista" onclick="trocarEtiqueta(event)"></button>
+            <i class="salvaEtiqueta" title="Salvar" onclick="salvarEdicaoEtiqueta(event,esquerdaCimaH6)"></i>
+          </div>
           <div class="ul-container">
             <ul id="urgenteImportante" ondrop="drop(event)" ondragover="allowDrop(event)"></ul>
-            <div class="cores" id="u-i-paleta">
-              <span id="vermelho" onclick="corSeleciona(event)"></span>
-              <span id="amarelo" onclick="corSeleciona(event)"></span>
-              <span id="azul" onclick="corSeleciona(event)"></span>
-              <span id="verde" onclick="corSeleciona(event)"></span>
-            </div>
-            <!-- <span class="ampliar"></span> -->
-            <h6 class="h6-urgente">URGENTE</h6>
-            <h6 class="h6-importante">IMPORTANTE</h6>
-            <span class="ampliar" onclick="modalUl('urgenteImportante')"></span>
+            <div class="layout" id="u-i-paleta"></div>
+            <span class="ampliar" onclick="ampliaLista(event)"></span>
           </div>
         </div>
-        <div class="esquerda-baixo">
+        <!-- LISTA container -->
+        <div id="esquerdaBaixo" class="esquerda-baixo dividido">
+          <div class="etiqueta">
+            <h6 id="esquerdaBaixoH6">URGENTE/NÃO IMPORTANTE</h6>
+            <input id="h6Altera" type="text" name="" value="">
+            <button type="button" name="button" class="editaEtiqueta" title="Editar nome da lista" onclick="trocarEtiqueta(event)">
+            </button>
+            <i class="salvaEtiqueta" title="Salvar" onclick="salvarEdicaoEtiqueta(event,esquerdaBaixoH6)"></i>
+          </div>
           <div class="ul-container" >
             <ul id="urgenteNaoImportante" ondrop="drop(event)" ondragover="allowDrop(event)"></ul>
-            <div class="cores" id="u-nI-paleta">
-              <span id="vermelho" onclick="corSeleciona(event)"></span>
-              <span id="amarelo" onclick="corSeleciona(event)"></span>
-              <span id="azul" onclick="corSeleciona(event)"></span>
-              <span id="verde" onclick="corSeleciona(event)"></span>
-            </div>
-            <h6 class="h6-naoImportante">NÃO-IMPORTANTE</h6>
-            <h6 class="h6-urgente">URGENTE</h6>
-            <span class="ampliar" onclick="modalUl('urgenteNaoImportante')"></span>
+            <div class="layout" id="u-nI-paleta"></div>
+            <span class="ampliar" onclick="ampliaLista(event)"></span>
           </div>
         </div>
       </div>
@@ -55,52 +52,55 @@
       <div class="s-centro">
         <ul id="listaClassificar" ondrop="drop(event)" ondragover="allowDrop(event)"></ul>
       </div>
-
       <div class="s-direita">
-        <div class="direita-cima">
+        <!-- LISTA container -->
+        <div id="direitaCima" class="direita-cima dividido">
+          <div class="etiqueta">
+            <h6 id="direitaCimaH6">NÃO URGENTE/IMPORTANTE</h6>
+            <input id="h6Altera" type="text" name="" value="">
+            <button type="button" name="button" class="editaEtiqueta" title="Editar nome da lista" onclick="trocarEtiqueta(event)"></button>
+            <i class="salvaEtiqueta" title="Salvar" onclick="salvarEdicaoEtiqueta(event,direitaCimaH6)"></i>
+          </div>
           <div class="ul-container">
             <ul id="naoUrgenteImportante" ondrop="drop(event)" ondragover="allowDrop(event)"></ul>
-            <div class="cores" id="nU-i-paleta">
-              <span id="vermelho" onclick="corSeleciona(event)"></span>
-              <span id="amarelo" onclick="corSeleciona(event)"></span>
-              <span id="azul" onclick="corSeleciona(event)"></span>
-              <span id="verde" onclick="corSeleciona(event)"></span>
+            <div class="layout" id="nU-i-paleta">
             </div>
-            <span class="ampliarD" onclick="modalUl('naoUrgenteImportante')"></span>
-            <h6 class="h6-naoUrgente">NÃO URGENTE</h6>
-            <h6 class="h6-importante">IMPORTANTE</h6>
+            <span class="ampliarD" onclick="ampliaLista(event)"></span>
           </div>
         </div>
-        <div class="direita-baixo">
+        <!-- LISTA container -->
+        <div id="direitaBaixo" class="direita-baixo dividido">
+          <div class="etiqueta">
+            <h6 id="direitaBaixoH6">NÃO URGENTE/NÃO IMPORTANTE</h6>
+            <input id="h6Altera" type="text" name="" value="">
+            <button type="button" name="button" class="editaEtiqueta" title="Editar nome da lista" onclick="trocarEtiqueta(event)"></button>
+            <i class="salvaEtiqueta" title="Salvar" onclick="salvarEdicaoEtiqueta(event,direitaBaixoH6)"></i>
+          </div>
           <div class="ul-container">
             <ul id="naoUrgenteNaoImportante" ondrop="drop(event)" ondragover="allowDrop(event)"></ul>
-            <div class="cores" id="nU-nI-paleta">
-              <span id="vermelho" onclick="corSeleciona(event)"></span>
-              <span id="amarelo" onclick="corSeleciona(event)"></span>
-              <span id="azul" onclick="corSeleciona(event)"></span>
-              <span id="verde" onclick="corSeleciona(event)"></span>
-            </div>
-            <span class="ampliarD" onclick="modalUl('naoUrgenteNaoImportante')"></span>
-            <h6 class="h6-naoUrgente">NÃO URGENTE</h6>
-            <h6 class="h6-naoImportante">NÃO-IMPORTANTE</h6>
+            <div class="layout" id="nU-nI-paleta"></div>
+            <span class="ampliarD" onclick="ampliaLista(event)"></span>
           </div>
         </div>
       </div>
     </section>
+    <!-- aqui vai abrir um modal da lista selecionada -->
     <div class="modal">
-      <!-- aqui vai abrir um modal da lista selecionada -->
-      <div class="principal">
-        <span class="fechar" onclick="$('.modal').style.display = 'none'">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
-            <title>Fechar</title>
-            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
-          </svg>
-        </span>
-        <div class="card"></div>
-      </div>
+      <ul class="principal" id="mCard"></ul>
     </div>
-    <script type="text/javascript" src="/js/iconesSVG.js"></script>
-    <script type="text/javascript" src="/js/funcoes.js"></script>
-    <script type="text/javascript" src="/js/renderer.js"></script>
+    <footer>
+      <button onclick="lixoListar()" class="historicoLixo" name="button" title="Histórico lixo">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+    </footer>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script type="text/javascript" src="./js/ls.js"></script>
+    <script type="text/javascript" src="./js/paletaLayout.js"></script>
+    <script type="text/javascript" src="./js/li.js"></script>
+    <script type="text/javascript" src="./js/variaveis.js"></script>
+    <script type="text/javascript" src="./js/funcoes.js"></script>
+    <script type="text/javascript" src="./js/config.js"></script>
+    <script type="text/javascript" src="./js/renderer.js"></script>
   </body>
 </html>

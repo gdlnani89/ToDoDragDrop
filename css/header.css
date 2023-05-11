@@ -1,11 +1,29 @@
 .h-container
 {
+  position: fixed;
     display: flex;
     align-items: center;
     align-content: center;
     justify-content: center;
     width: 100%;
-    height: 100px;
+    height: 60px;
+}
+.h-container .fazer
+{
+  width: 30%;
+  position: relative;
+  display: flex;
+  padding: 10px;
+  z-index: 1;
+  justify-content: center;
+  border-radius: 10px;
+  background-color: gray;
+  top:-20px;
+  transition: top .5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+.h-container .fazer:hover
+{
+  top: 4px;
 }
 .h-container
 label{
@@ -22,15 +40,27 @@ input
     border: none;
     padding: 10px;
     border-radius: 7px 0 0 7px;
-    width: 25%;
+    background-color: gray;
+    /* width: 400px; */
+    cursor: cell;
+    color: white;
+    flex: 1;
+}
+.h-container
+input::placeholder
+{
+  color: white;
 }
 #adicionarTarefa
 {
-    padding: 10px;
-    background-color: #d9d9d9;
+    padding: 18px;
+    /* background-color: #d9d9d9; */
     display: flex;
     align-items: center;
     border-radius: 0 7px 7px 0;
+    background-image: url('../icon/add.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 #adicionarTarefa:hover
 {
@@ -41,5 +71,8 @@ input
 input:focus
 {
     outline: none;
-    background-color: cornsilk;
+}
+.fazer.focus
+{
+  top : 4px;
 }

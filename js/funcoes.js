@@ -1,70 +1,51 @@
-let configCor =[    
-    {
-        "id" : "urgenteImportante",
-        "cor" : ""
-    },
-    {
-        "id" : "urgenteNaoImportante",
-        "cor" : ""
-    },
-    {
-        "id" : "naoUrgenteImportante",
-        "cor" : ""
-    },
-    {
-        "id" : "naoUrgenteNaoImportante",
-        "cor" : ""
+function dadoConstrutor(id,texto,situacao = false){
+    return {
+        id,
+        texto,
+        situacao
     }
-]
-let listaClassificar = localStorage.getItem('listaClassificar') ? JSON.parse(localStorage.getItem('listaClassificar')) : []  
-let urgenteImportante = localStorage.getItem('urgenteImportante') ? JSON.parse(localStorage.getItem('urgenteImportante')) : []
-let naoUrgenteImportante = localStorage.getItem('naoUrgenteImportante') ? JSON.parse(localStorage.getItem('naoUrgenteImportante')) : []
-let urgenteNaoImportante = localStorage.getItem('urgenteNaoImportante') ? JSON.parse(localStorage.getItem('urgenteNaoImportante')) : []
-let naoUrgenteNaoImportante = localStorage.getItem('naoUrgenteNaoImportante') ? JSON.parse(localStorage.getItem('naoUrgenteNaoImportante')) : []
+}
+
+function loadListaLS(listaArray,ul){
+    if(listaArray){
+        listaArray.forEach(item =>{
+            const listaFazer = criaLi(item)//item.texto, item.id
+            ul.appendChild(listaFazer)
+        })
+    }
+}
 
 function adicionarTarefa(){
     const texto = inpFazer
     if(texto.value){
-        const dados = {
-            texto : texto.value,
-            id : generateId()
-        }
-        const listaFazer = criaLi(dados.texto, dados.id)
+        const dados = dadoConstrutor(generateId(),texto.value)
+        const listaFazer = criaLi(dados)
         ulMeio.appendChild(listaFazer)
         texto.value =''
         listaClassificar.push(dados)
-        localStorage.setItem('listaClassificar', JSON.stringify(listaClassificar))
+        nomeListaRemetente = 'listaClassificar'
+        localStorage.setItem(nomeListaRemetente, JSON.stringify(listaClassificar))
     }else{
         inpFazer.focus()
     }
 }
 
-function listaAtualizada(array,valorQueSai){
-    let ln = array.filter(item =>  item.texto !== valorQueSai.texto)
-    console.log(ln);
-    return ln
-}
 function listaAtualizadaDestinatario(lista,valor){
     const dados = {
         texto : valor.texto,
         id : valor.id
     }
-
     lista.push(dados)
 }
+
 function listasTroca(
     fnRemetente,
     fnDestinatario,
-    remetente, 
-    destinatario, 
+    remetente,
+    destinatario,
     valor
     )
     {
-    //remente recebe a lista filtrada menos o valor
-    //como passar o remetente? ou como identificar?
-    //salvar no localStorage
-    //destinatario faz um push do valor
-    // let remetenteAtualiza = remetente.filter(item => item.texto !== valor)
     let remetenteAtualiza = fnRemetente(remetente,valor)
     fnDestinatario(destinatario,valor)
     const dadosAtualizados = {
@@ -74,58 +55,13 @@ function listasTroca(
     return dadosAtualizados
 }
 
-function criaLi(tarefaTexto,id){
-    const idGerado = generateId()
-    const li = $cria('li')
-    const sTexto = $cria('span')
-    const sCheck = $cria('input')
-    const sCheckLabel = $cria('label')
-    const sLixeira = $cria('span')
-    const sMover = $cria('span')
-    sTexto.classList.add('texto')
-    sCheck.classList.add('check')
-    sCheck.classList.add('red')
-    sCheck.setAttribute('type', 'checkbox')
-    sCheck.setAttribute('id', idGerado)
-    sCheckLabel.setAttribute('for', idGerado)
-    sLixeira.innerHTML = excluir
-    sMover.innerHTML = mover
-    sLixeira.classList.add('lixeira')
-    sMover.classList.add('mover')
-    sTexto.innerText = tarefaTexto 
-    li.appendChild(sTexto)
-    li.appendChild(sCheck)
-    li.appendChild(sCheckLabel)
-    li.appendChild(sLixeira)
-    li.appendChild(sMover)
-    li.setAttribute("draggable", true)
-    li.setAttribute("id", id)
-    li.addEventListener('dragstart', function (event) {
-        console.log(event.target.parentElement);
-        const dadoEnvio = {
-            id : event.target.id,//id da li
-            listaRemetente : event.target.parentElement.id,
-            texto : event.target.innerText// texto da li
-        }
-        event.dataTransfer.setData("text", JSON.stringify(dadoEnvio))     
-        this.style.opacity = '0.4'
-    })
-    li.addEventListener('dragend', function (event) {
-         this.style.opacity = '1'
-         const dragItemId = event.dataTransfer.getData('text/plain');
-         console.log(dragItemId);
-    })
-
-    return li
-}
 function retornaLista(listaString){
-    console.log(listaString);
     if(listaString == 'urgenteImportante'){
         return urgenteImportante
-    }  
+    }
     if(listaString == 'naoUrgenteImportante'){
         return naoUrgenteImportante
-    }  
+    }
     // listaString === 'naoUrgenteImportante' ? naoUrgenteImportante : []
     if(listaString === 'urgenteNaoImportante'){
         return urgenteNaoImportante
@@ -137,33 +73,21 @@ function retornaLista(listaString){
         return listaClassificar
     }
 }
+function listaAtualizada(array,valorQueSai){
+    let ln = array.filter(item =>  item.texto !== valorQueSai.texto)
+
+    return ln
+}
+
 function drop(ev){
     ev.preventDefault();
-    let liDrop = JSON.parse(ev.dataTransfer.getData("text"))
-    ev.target.appendChild(document.getElementById(liDrop.id))
-    console.log(liDrop.listaRemetente);
-    let nomeRemetente = liDrop.listaRemetente
-    const remetente = retornaLista(nomeRemetente)
-    let nomeDestinatario = ev.target.id
-    const destinatario = retornaLista(nomeDestinatario)
-    const valor = liDrop
-
-    const dadosParaLs = 
-        listasTroca(
-            listaAtualizada,
-            listaAtualizadaDestinatario,
-            remetente,
-            destinatario,
-            valor
-            )
-    // localStorage.removeItem(liDrop.listaRemetente)
-    // localStorage.setItem(liDrop.listaRemetente,JSON.stringify(lsNova))
-    localStorageListas.atualizar(nomeRemetente,dadosParaLs.remetente)
-    localStorageListas.atualizar(nomeDestinatario,dadosParaLs.destinatario)
-    // localStorageListas.remover(nomeRemetente)
-    // console.log(dadosParaLs.remetente);
-
+    let dadoRemetente = JSON.parse(ev.dataTransfer.getData("text"))//peguei o id
+    console.log(dadoRemetente);
+    if(ev.target.nodeName === 'UL'){
+        ev.target.appendChild(document.getElementById(dadoRemetente.id))
+    }
 }
+
 function allowDrop(ev) {
     ev.preventDefault();
 }
@@ -173,73 +97,82 @@ function moverElemento(remetente, destinatario, id) {
       const elemento = remetente.splice(index, 1)[0]; // Remove o elemento do array remetente e armazena em uma variável
       destinatario.push(elemento); // Adiciona o elemento ao array destinatário
     }
-  }
-
-function corSeleciona(ev){
-    const eleSpan = ev.target;
-    const ulId = eleSpan.parentNode.previousElementSibling.id
-    const elem = $id(ulId)
-    if(ev.target.id === 'vermelho'){
-        elem.style.backgroundColor = '#830404'
-        configCor.forEach(item =>{
-            if(item.id === ulId)item.cor = '#830404'
-        })
-    }
-    if(ev.target.id === 'amarelo'){
-        elem.style.backgroundColor = '#ff9900'
-        configCor.forEach(item =>{
-            if(item.id === ulId)item.cor = '#ff9900'
-        })
-    }
-    if(ev.target.id === 'azul'){
-        elem.style.backgroundColor = '#007bff'
-        configCor.forEach(item =>{
-            if(item.id === ulId)item.cor = '#007bff'
-        })
-    }   
-    if(ev.target.id === 'verde'){
-        elem.style.backgroundColor = '#37ff00'
-        configCor.forEach(item =>{
-            if(item.id === ulId)item.cor = '#37ff00'
-        })
-    } 
-    localStorage.setItem('configuracoes', JSON.stringify(configCor))
 }
-/* em vez de colocar o evento click direto no html, poderia ter feito como abaixo
-allCoresSpan.forEach(span =>{
-    span.innerHTML = bgCor
-    span.onclick = function(){
-        const ulId = span.parentNode.previousElementSibling.id
-        console.log(ulId);
-        console.log(this.id);
-        const cor = $(`#${ulId} #${this.id} svg`)
-        console.log(cor);
-        // cor.style.display = 'none'
-    }
-}) 
-*/
+function modalUl(ul){
+    modal.style.display = 'flex'
+    configLayout.forEach(item =>{
+        if(item.id === ul){
+            ulModal.style.backgroundColor = item.cor
+        }
+    })
+}
+function ampliaLista(ev) {
+    console.log(ev);
+    cardUl.innerHTML = ''
+    listaAmplia = ev.target.parentNode.childNodes[1].id
+    liOrigemAmplia = $all(`#${listaAmplia} li`)
+    const lista = retornaLista(listaAmplia)
+    modalUl(listaAmplia)
+    loadListaLS(lista,cardUl)
+}
+function lixoListar(){
+    modalUl(listaAmplia)
+    loadListaLS(lixeira)
+}
+function fecharModal(){
+    modal.style.display = 'none'
+    listaAmplia = null
+}
 //gerar id aleatorio
 function generateId() {
     const maxId = 100000;
     const randomNum = Math.floor(Math.random() * maxId);
     return randomNum.toString();
 }
-function modalUl(ul){
-    const modal = $('.modal')
-    const ulModal = $('.principal')
-    modal.style.display = 'flex'
-    configCor.forEach(item =>{
-        if(item.id === ul){
-            ulModal.style.backgroundColor = item.cor
-        }
-    })
+///////////////// timer
+// HTML
+//<div class="">
+//   <h1>Timer</h1>
+//   <div class="timer">
+//     <div class="progress"></div>
+//     <div class="time">00:00</div>
+//   </div>
+//   <button type="button" name="button" onclick="startTimer()">Start</button>
+//   <button type="button" name="button" onclick="stopTimer()">Stop</button>
+// </div>
+let interval;
+let time = 0;
+let timerRunning = false;
+
+function startTimer() {
+if (!timerRunning) {
+interval = setInterval(updateTimer, 1000);
+timerRunning = true;
 }
-const localStorageListas = {
-    salvar : (nome , listaArray) => localStorage.setItem(nome,JSON.stringify(listaArray)),
-    remover : nome => localStorage.removeItem(nome),
-    obter : nome => JSON.parse(localStorage.getItem(nome)),
-    atualizar : (nome, listaArrayAtualizada)=>{
-        localStorageListas.remover(nome)
-        localStorageListas.salvar(nome, listaArrayAtualizada)
-    }
+}
+
+function stopTimer() {
+clearInterval(interval);
+time = 0;
+updateProgress();
+timerRunning = false;
+}
+
+function updateTimer() {
+  time++;
+  updateProgress();
+}
+
+function updateProgress() {
+  const progressBar = document.querySelector(".progress");
+  const timeDisplay = document.querySelector(".time");
+  const progress = (time / 60) * 100;
+  progressBar.style.width = progress + "%";
+  const minutes = Math.floor(time / 60);
+  const seconds = time % 60;
+  timeDisplay.textContent = `${padZeroes(minutes)}:${padZeroes(seconds)}`;
+}
+
+function padZeroes(num) {
+return num.toString().padStart(2, "0");
 }
